@@ -1,0 +1,36 @@
+name: Publish
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+
+concurrency:
+  group: publish-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+        with:
+          python-version: 3.x
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+      - run: python3 -m pip install --user qmk
+      - run: qmk setup -y -H ./qmk_firmware
+      - run: npm install
+      - run: npm start
+      - uses: pyTooling/Actions/releaser@r0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag: 'weekly'
+          files: |
+            ./qmk_firmware/*.hex
+            ./qmk_firmware/*.bin
