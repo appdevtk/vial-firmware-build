@@ -3,12 +3,31 @@ import path from 'path'
 import { execSync } from 'child_process'
 import YAML from 'yaml'
 import globSync from 'glob/sync.js'
-import { join } from 'array-join'
+import { fullJoin } from 'array-join'
 import deepmerge from 'deepmerge'
+import uniq from 'lodash.uniq'
 
-let dryRun = process.env.DRY_RUN !== undefined || false
+const DEFAULT_DIR = `qmk_firmware`
+const DEFAULT_USER = `qmk`
+const DEFAULT_REPO = `qmk_firmware`
+const DEFAULT_BRANCH = `master`
+const dryRun = process.env.DRY_RUN !== undefined
 
-const keyboards = globSync('users/*/keyboards.yml')
+function keyboardToString(kb) {
+  return `${kb.fork?.username ? kb.fork.username : DEFAULT_USER}-${
+    kb.fork?.repository ? kb.fork.repository : DEFAULT_REPO
+  }-${kb.fork?.branch ? kb.fork.branch : DEFAULT_BRANCH}`
+}
+
+function run(cmd, opts = {}) {
+  if (dryRun) {
+    console.log(cmd, opts)
+  } else {
+    execSync(cmd, opts)
+  }
+}
+
+const keyboards = globSync('**/keyboards.yml')
   .map((file) => {
     const content = fs.readFileSync(file, 'utf8')
     const data = YAML.parse(content)
@@ -28,47 +47,57 @@ const keyboards = globSync('users/*/keyboards.yml')
     return data
   })
   .reduce((acc, curr) => {
-    return join(
+    return fullJoin(
       acc,
       curr,
-      (l) =>
-        `${l.fork.username ? l.fork.username : 'qmk'}-${l.fork.repository ? l.fork.repository : 'qmk_firmware'}-${
-          l.fork.branch ? l.fork.branch : 'master'
-        }-${l.keyboard}`,
-      (r) =>
-        `${r.fork.username ? r.fork.username : 'qmk'}-${r.fork.repository ? r.fork.repository : 'qmk_firmware'}-${
-          r.fork.branch ? r.fork.branch : 'master'
-        }-${r.keyboard}`,
-      (l, r) => deepmerge(l, r),
+      (l) => `${keyboardToString(l)}-${l.keyboard}`,
+      (r) => `${keyboardToString(r)}-${r.keyboard}`,
+      (l, r) => {
+        let merge = deepmerge(l || {}, r || {})
+        merge.keymaps = uniq(merge.keymaps)
+        return merge
+      },
     )
   })
 
-const qmkHome = path.resolve(process.cwd(), 'qmk_firmware')
+const qmkHome = process.env.QMK_HOME || path.resolve(process.cwd(), DEFAULT_DIR)
+const forkSetup = []
+let currentBranch = `${DEFAULT_USER}-${DEFAULT_REPO}-${DEFAULT_BRANCH}`
+let count = 0
 
+run(`git checkout ${DEFAULT_BRANCH}`, { cwd: qmkHome })
+run(`git pull`, { cwd: qmkHome })
 ;(keyboards || []).forEach((kb) => {
   ;(kb.keymaps || []).forEach((km) => {
-    if (dryRun) {
-      console.log(`Compile ${kb.keyboard} with the keymap ${km}`, kb.fork ? `(${kb.fork.username})` : '')
-    } else {
-      if (kb.fork) {
-        execSync(
-          `git remote add ${kb.fork.username} https://github.com/${kb.fork.username}/${
-            kb.fork.repository || 'qmk_firmware'
-          }.git`,
-          { cwd: qmkHome },
-        )
-        execSync(`git fetch ${kb.fork.username}`, { cwd: qmkHome })
-        execSync(`git checkout ${kb.fork.username}/${kb.fork.branch || 'master'}`, { cwd: qmkHome })
-      } else {
-        execSync(`git checkout master`, { cwd: qmkHome })
-      }
-      execSync(`qmk compile -kb ${kb.keyboard} -km ${km}`, (err, stdout, stderr) => {
-        if (err) {
-          console.error(err)
+    try {
+      if (currentBranch !== keyboardToString(kb)) {
+        if (kb.fork) {
+          let forkPath = `${kb.fork.username}/${kb.fork.repository || DEFAULT_REPO}`
+          if (!forkSetup.includes(forkPath)) {
+            try {
+              run(`git remote add ${kb.fork.username} https://github.com/${forkPath}.git`, { cwd: qmkHome })
+            } catch (e) {
+              console.info(`Fork ${kb.fork.username} already exists`)
+            }
+            run(`git fetch ${kb.fork.username}`, { cwd: qmkHome })
+            forkSetup.push(forkPath)
+          }
+          run(`git checkout ${kb.fork.username}/${kb.fork.branch || DEFAULT_BRANCH}`, { cwd: qmkHome })
+        } else {
+          run(`git checkout ${DEFAULT_BRANCH}`, { cwd: qmkHome })
         }
-        console.log(stdout)
-        console.error(stderr)
-      })
+        currentBranch = keyboardToString(kb)
+      }
+      run(`qmk compile -kb ${kb.keyboard} -km ${km}`)
+      count++
+    } catch (e) {
+      console.error(e.message)
     }
   })
 })
+
+if (currentBranch !== `${DEFAULT_USER}-${DEFAULT_REPO}-${DEFAULT_BRANCH}`) {
+  run(`git checkout ${DEFAULT_BRANCH}`, { cwd: qmkHome })
+}
+
+console.log(`✨ Compiled ${count} keymaps.`)

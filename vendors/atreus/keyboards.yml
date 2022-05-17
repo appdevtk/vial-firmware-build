@@ -1,0 +1,11 @@
+---
+- keyboard: atreus/astar
+  keymaps: [default]
+- keyboard: atreus/astar_mirrored
+  keymaps: [default]
+- keyboard: atreus/feather
+  keymaps: [default]
+- keyboard: atreus/promicro
+  keymaps: [default]
+- keyboard: atreus/teensy2
+  keymaps: [default]

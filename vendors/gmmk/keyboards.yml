@@ -1,0 +1,5 @@
+---
+- keyboard: gmmk/pro/ansi
+  keymaps: [via]
+- keyboard: gmmk/pro/iso
+  keymaps: [via]

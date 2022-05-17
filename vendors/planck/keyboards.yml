@@ -1,0 +1,19 @@
+---
+- keyboard: planck/light
+  keymaps: [via]
+- keyboard: planck/rev1
+  keymaps: [via]
+- keyboard: planck/rev2
+  keymaps: [via]
+- keyboard: planck/rev3
+  keymaps: [via]
+- keyboard: planck/rev4
+  keymaps: [via]
+- keyboard: planck/rev5
+  keymaps: [via]
+- keyboard: planck/rev6
+  keymaps: [via]
+- keyboard: planck/rev6_drop
+  keymaps: [via]
+- keyboard: planck/thk
+  keymaps: [via]

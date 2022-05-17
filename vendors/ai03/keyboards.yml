@@ -1,0 +1,25 @@
+---
+- keyboard: ai03/andromeda
+  keymaps: [via]
+- keyboard: ai03/equinox/rev0
+  keymaps: [via]
+- keyboard: ai03/equinox/rev1
+  keymaps: [via]
+- keyboard: ai03/jp60
+  keymaps: [via]
+- keyboard: ai03/lunar
+  keymaps: [via]
+- keyboard: ai03/orbit
+  keymaps: [default]
+- keyboard: ai03/orbit_x
+  keymaps: [via]
+- keyboard: ai03/polaris
+  keymaps: [via]
+- keyboard: ai03/quasar
+  keymaps: [default]
+- keyboard: ai03/soyuz
+  keymaps: [via]
+- keyboard: ai03/vega
+  keymaps: [via]
+- keyboard: ai03/voyager60_alps
+  keymaps: [via]

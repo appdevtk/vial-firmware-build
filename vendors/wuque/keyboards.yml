@@ -1,0 +1,11 @@
+---
+- keyboard: wuque/ikki68
+  keymaps: [via]
+- keyboard: wuque/ikki68_aurora
+  keymaps: [via]
+- keyboard: wuque/mammoth20x
+  keymaps: [via]
+- keyboard: wuque/mammoth75x
+  keymaps: [via]
+- keyboard: wuque/serneity65
+  keymaps: [via]

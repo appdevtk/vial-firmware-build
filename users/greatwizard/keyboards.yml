@@ -1,17 +1,3 @@
 ---
 - keyboard: kprepublic/jj50
-  keymaps: [via, greatwizard]
-- keyboard: kbdfans/kbd67/mkiirgb/v2
-  keymaps: [via]
-- keyboard: coseyfannitutti/discipad
-  keymaps: [via]
-- keyboard: capsunlocked/cu65
-  keymaps: [via]
-- keyboard: wuque/ikki68_aurora
-  keymaps: [via]
-- fork:
-    username: piit79
-  keyboard: 42keebs/mysterium/v15d
-  keymaps: [via]
-# - keyboard: iron160
-#   keymaps: [via]
+  keymaps: [greatwizard]

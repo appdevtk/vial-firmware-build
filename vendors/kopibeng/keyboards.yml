@@ -1,0 +1,13 @@
+---
+- keyboard: kopibeng/mnk65
+  keymaps: [via]
+- keyboard: kopibeng/mnk88
+  keymaps: [via]
+- keyboard: kopibeng/typ65
+  keymaps: [via]
+- keyboard: kopibeng/xt8x
+  keymaps: [via]
+- keyboard: kopibeng/xt60
+  keymaps: [via]
+- keyboard: kopibeng/xt65
+  keymaps: [via]

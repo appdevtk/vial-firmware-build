@@ -1,0 +1,7 @@
+---
+- keyboard: yiancardesigns/barleycorn
+  keymaps: [via]
+- keyboard: yiancardesigns/gingham
+  keymaps: [via]
+- keyboard: yiancardesigns/seigaiha
+  keymaps: [via]

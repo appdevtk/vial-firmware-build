@@ -1,0 +1,9 @@
+---
+- keyboard: dm9records/ergoinu
+  keymaps: [default]
+- keyboard: dm9records/lain
+  keymaps: [via]
+- keyboard: dm9records/plaid
+  keymaps: [via]
+- keyboard: dm9records/tartan
+  keymaps: [via]

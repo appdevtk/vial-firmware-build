@@ -1,0 +1,7 @@
+---
+- keyboard: lily58/glow_enc
+  keymaps: [via]
+- keyboard: lily58/light
+  keymaps: [via]
+- keyboard: lily58/rev1
+  keymaps: [via]

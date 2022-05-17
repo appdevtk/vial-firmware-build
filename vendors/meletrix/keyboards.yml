@@ -1,0 +1,5 @@
+---
+- keyboard: meletrix/zoom65
+  keymaps: [via]
+- keyboard: meletrix/zoom65_lite
+  keymaps: [via]

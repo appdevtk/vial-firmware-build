@@ -1,0 +1,19 @@
+---
+- keyboard: capsunlocked/cu7
+  keymaps: [default]
+- keyboard: capsunlocked/cu24
+  keymaps: [default]
+- keyboard: capsunlocked/cu65
+  keymaps: [via]
+- keyboard: capsunlocked/cu75
+  keymaps: [default, iso]
+- keyboard: capsunlocked/cu80/v1
+  keymaps: [default]
+- keyboard: capsunlocked/cu80/v2_ansi
+  keymaps: [via]
+- keyboard: capsunlocked/cu80/v2_ansi/rgb
+  keymaps: [via]
+- keyboard: capsunlocked/cu80/v2_iso
+  keymaps: [via]
+- keyboard: capsunlocked/cu80/v2_iso/rgb
+  keymaps: [via]
