@@ -1,5 +1,6 @@
 # QMK Firmware Build
 
+[![CI](https://github.com/GreatWizard/qmk-firmware-build/actions/workflows/ci.yml/badge.svg)](https://github.com/GreatWizard/qmk-firmware-build/actions/workflows/ci.yml)
 [![Publish](https://github.com/GreatWizard/qmk-firmware-build/actions/workflows/publish.yml/badge.svg)](https://github.com/GreatWizard/qmk-firmware-build/actions/workflows/publish.yml)
 [![License: GPL-3.0](https://img.shields.io/github/license/GreatWizard/qmk-firmware-build)](https://github.com/GreatWizard/qmk-firmware-build/blob/master/LICENSE.md)
 [![Liberapay](https://img.shields.io/liberapay/patrons/GreatWizard.svg?logo=liberapay)](https://liberapay.com/GreatWizard/)
