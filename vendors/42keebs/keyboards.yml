@@ -15,10 +15,10 @@
     username: piit79
   keyboard: 42keebs/discipline
   keymaps: [via]
-# - fork:
-#     username: piit79
-#   keyboard: 42keebs/donegal_c
-#   keymaps: [default]
+- fork:
+    username: piit79
+  keyboard: 42keebs/donegal_c
+  keymaps: [default]
 - fork:
     username: piit79
   keyboard: 42keebs/lumberjack_c
@@ -35,7 +35,7 @@
     username: piit79
   keyboard: 42keebs/plaid_c
   keymaps: [via]
-# - fork:
-#     username: piit79
-#   keyboard: 42keebs/southpaw75
-#   keymaps: [default]
+- fork:
+    username: piit79
+  keyboard: 42keebs/southpaw75
+  keymaps: [default]

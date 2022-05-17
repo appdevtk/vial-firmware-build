@@ -1,11 +1,3 @@
 ---
-- keyboard: peej/lumberjack
-  keymaps: [via]
 - keyboard: peej/rosaline
-  keymaps: [via, via-ortho]
-- keyboard: peej/tripel/left
-  keymaps: [via]
-- keyboard: peej/tripel/middle
-  keymaps: [via]
-- keyboard: peej/tripel/right
-  keymaps: [via]
+  keymaps: [via-ortho]

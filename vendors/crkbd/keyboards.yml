@@ -1,5 +1,3 @@
 ---
 - keyboard: crkbd/r2g
   keymaps: [mb_via]
-- keyboard: crkbd/rev1
-  keymaps: [via]
