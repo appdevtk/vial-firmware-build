@@ -31,7 +31,7 @@ function run(cmd, opts = {}) {
   let cmdName = args.shift()
   if (dryRun) {
     console.log(cmdName, args, opts)
-    return {}
+    return { status: 0 }
   } else {
     return spawnSync(cmdName, args, opts)
   }
