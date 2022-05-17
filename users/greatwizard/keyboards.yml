@@ -1,6 +1,6 @@
 ---
 - keyboard: kprepublic/jj50
-  keymaps: [default, greatwizard]
+  keymaps: [via, greatwizard]
 - keyboard: kbdfans/kbd67/mkiirgb/v2
   keymaps: [via]
 - keyboard: coseyfannitutti/discipad

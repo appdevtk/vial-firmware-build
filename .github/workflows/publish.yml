@@ -31,6 +31,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: 'weekly'
+          rm: true
           files: |
             ./qmk_firmware/*.hex
             ./qmk_firmware/*.bin
