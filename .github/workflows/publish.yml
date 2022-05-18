@@ -6,11 +6,11 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: publish-${{ github.head_ref || github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  publish:
+  build-local:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -23,12 +23,272 @@ jobs:
       - run: python3 -m pip install --user qmk
       - run: qmk setup -y -H ./qmk_firmware
       - run: npm install
-      - run: npm start
+      - run: node index.js --local
+      - uses: actions/upload-artifact@v3
+        with:
+          name: fw-local
+          path: |
+            ./qmk_firmware/*.hex
+            ./qmk_firmware/*.bin
+
+  build-0123456789:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+        with:
+          python-version: 3.x
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+      - run: python3 -m pip install --user qmk
+      - run: qmk setup -y -H ./qmk_firmware
+      - run: npm install
+      - run: node index.js --glob "0*"
+      - run: node index.js --glob "1*"
+      - run: node index.js --glob "2*"
+      - run: node index.js --glob "3*"
+      - run: node index.js --glob "4*"
+      - run: node index.js --glob "5*"
+      - run: node index.js --glob "6*"
+      - run: node index.js --glob "7*"
+      - run: node index.js --glob "8*"
+      - run: node index.js --glob "9*"
+      - uses: actions/upload-artifact@v3
+        with:
+          name: fw-0123456789
+          path: |
+            ./qmk_firmware/*.hex
+            ./qmk_firmware/*.bin
+
+  build-abc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+        with:
+          python-version: 3.x
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+      - run: python3 -m pip install --user qmk
+      - run: qmk setup -y -H ./qmk_firmware
+      - run: npm install
+      - run: node index.js --glob "a*"
+      - run: node index.js --glob "b*"
+      - run: node index.js --glob "c*"
+      - uses: actions/upload-artifact@v3
+        with:
+          name: fw-abc
+          path: |
+            ./qmk_firmware/*.hex
+            ./qmk_firmware/*.bin
+
+  build-def:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+        with:
+          python-version: 3.x
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+      - run: python3 -m pip install --user qmk
+      - run: qmk setup -y -H ./qmk_firmware
+      - run: npm install
+      - run: node index.js --glob "d*"
+      - run: node index.js --glob "e*"
+      - run: node index.js --glob "f*"
+      - uses: actions/upload-artifact@v3
+        with:
+          name: fw-def
+          path: |
+            ./qmk_firmware/*.hex
+            ./qmk_firmware/*.bin
+
+  build-ghi:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+        with:
+          python-version: 3.x
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+      - run: python3 -m pip install --user qmk
+      - run: qmk setup -y -H ./qmk_firmware
+      - run: npm install
+      - run: node index.js --glob "g*"
+      - run: node index.js --glob "h*"
+      - run: node index.js --glob "i*"
+      - uses: actions/upload-artifact@v3
+        with:
+          name: fw-ghi
+          path: |
+            ./qmk_firmware/*.hex
+            ./qmk_firmware/*.bin
+
+  build-jkl:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+        with:
+          python-version: 3.x
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+      - run: python3 -m pip install --user qmk
+      - run: qmk setup -y -H ./qmk_firmware
+      - run: npm install
+      - run: node index.js --glob "j*"
+      - run: node index.js --glob "k*"
+      - run: node index.js --glob "l*"
+      - uses: actions/upload-artifact@v3
+        with:
+          name: fw-jkl
+          path: |
+            ./qmk_firmware/*.hex
+            ./qmk_firmware/*.bin
+
+  build-mno:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+        with:
+          python-version: 3.x
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+      - run: python3 -m pip install --user qmk
+      - run: qmk setup -y -H ./qmk_firmware
+      - run: npm install
+      - run: node index.js --glob "m*"
+      - run: node index.js --glob "n*"
+      - run: node index.js --glob "o*"
+      - uses: actions/upload-artifact@v3
+        with:
+          name: fw-mno
+          path: |
+            ./qmk_firmware/*.hex
+            ./qmk_firmware/*.bin
+
+  build-pqr:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+        with:
+          python-version: 3.x
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+      - run: python3 -m pip install --user qmk
+      - run: qmk setup -y -H ./qmk_firmware
+      - run: npm install
+      - run: node index.js --glob "p*"
+      - run: node index.js --glob "q*"
+      - run: node index.js --glob "r*"
+      - uses: actions/upload-artifact@v3
+        with:
+          name: fw-pqr
+          path: |
+            ./qmk_firmware/*.hex
+            ./qmk_firmware/*.bin
+
+  build-stu:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+        with:
+          python-version: 3.x
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+      - run: python3 -m pip install --user qmk
+      - run: qmk setup -y -H ./qmk_firmware
+      - run: npm install
+      - run: node index.js --glob "s*"
+      - run: node index.js --glob "t*"
+      - run: node index.js --glob "u*"
+      - uses: actions/upload-artifact@v3
+        with:
+          name: fw-stu
+          path: |
+            ./qmk_firmware/*.hex
+            ./qmk_firmware/*.bin
+
+  build-vwx:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+        with:
+          python-version: 3.x
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+      - run: python3 -m pip install --user qmk
+      - run: qmk setup -y -H ./qmk_firmware
+      - run: npm install
+      - run: node index.js --glob "v*"
+      - run: node index.js --glob "w*"
+      - run: node index.js --glob "x*"
+      - uses: actions/upload-artifact@v3
+        with:
+          name: fw-vwx
+          path: |
+            ./qmk_firmware/*.hex
+            ./qmk_firmware/*.bin
+
+  build-yz:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+        with:
+          python-version: 3.x
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+      - run: python3 -m pip install --user qmk
+      - run: qmk setup -y -H ./qmk_firmware
+      - run: npm install
+      - run: node index.js --glob "y*"
+      - run: node index.js --glob "z*"
+      - uses: actions/upload-artifact@v3
+        with:
+          name: fw-yz
+          path: |
+            ./qmk_firmware/*.hex
+            ./qmk_firmware/*.bin
+
+  publish:
+    needs:
+      - build-local
+      - build-0123456789
+      - build-abc
+      - build-def
+      - build-ghi
+      - build-jkl
+      - build-mno
+      - build-pqr
+      - build-stu
+      - build-vwx
+      - build-yz
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          path: ./download
       - uses: pyTooling/Actions/releaser@r0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: 'weekly'
-          rm: true
           files: |
-            ./qmk_firmware/*.hex
-            ./qmk_firmware/*.bin
+            ./download/**/*.hex
+            ./download/**/*.bin
