@@ -16,6 +16,10 @@ Every week the script is executed by Github Actions and updates the `weekly` tag
 You can download the files directly here:
 https://github.com/GreatWizard/qmk-firmware-build/releases/tag/weekly
 
+## How to flash a firmware
+
+Follow steps from this guide: [Flashing your keyboard](https://docs.qmk.fm/#/newbs_flashing).
+
 ## Add my keyboards
 
 You can add your keyboards by doing a pull request with the following content:
