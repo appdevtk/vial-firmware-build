@@ -21,15 +21,22 @@ jobs:
         with:
           node-version: 16.x
       - run: python3 -m pip install --user qmk
-      - run: qmk setup -y -H ./qmk_firmware
+      - run: qmk setup -y -H qmk_firmware
+      - run: ls keyboards > vendors.txt && echo "42keebs" >> vendors.txt
+        working-directory: qmk_firmware
       - run: npm install
       - run: node index.js --local
       - uses: actions/upload-artifact@v3
         with:
           name: fw-local
           path: |
-            ./qmk_firmware/*.hex
-            ./qmk_firmware/*.bin
+            qmk_firmware/*.hex
+            qmk_firmware/*.bin
+      - uses: actions/upload-artifact@v3
+        with:
+          name: vendors-list
+          path: |
+            qmk_firmware/vendors.txt
 
   build-0123456789:
     runs-on: ubuntu-latest
@@ -42,7 +49,7 @@ jobs:
         with:
           node-version: 16.x
       - run: python3 -m pip install --user qmk
-      - run: qmk setup -y -H ./qmk_firmware
+      - run: qmk setup -y -H qmk_firmware
       - run: npm install
       - run: node index.js --glob "0*"
       - run: node index.js --glob "1*"
@@ -58,8 +65,8 @@ jobs:
         with:
           name: fw-0123456789
           path: |
-            ./qmk_firmware/*.hex
-            ./qmk_firmware/*.bin
+            qmk_firmware/*.hex
+            qmk_firmware/*.bin
 
   build-abc:
     runs-on: ubuntu-latest
@@ -72,7 +79,7 @@ jobs:
         with:
           node-version: 16.x
       - run: python3 -m pip install --user qmk
-      - run: qmk setup -y -H ./qmk_firmware
+      - run: qmk setup -y -H qmk_firmware
       - run: npm install
       - run: node index.js --glob "a*"
       - run: node index.js --glob "b*"
@@ -81,8 +88,8 @@ jobs:
         with:
           name: fw-abc
           path: |
-            ./qmk_firmware/*.hex
-            ./qmk_firmware/*.bin
+            qmk_firmware/*.hex
+            qmk_firmware/*.bin
 
   build-def:
     runs-on: ubuntu-latest
@@ -95,7 +102,7 @@ jobs:
         with:
           node-version: 16.x
       - run: python3 -m pip install --user qmk
-      - run: qmk setup -y -H ./qmk_firmware
+      - run: qmk setup -y -H qmk_firmware
       - run: npm install
       - run: node index.js --glob "d*"
       - run: node index.js --glob "e*"
@@ -104,8 +111,8 @@ jobs:
         with:
           name: fw-def
           path: |
-            ./qmk_firmware/*.hex
-            ./qmk_firmware/*.bin
+            qmk_firmware/*.hex
+            qmk_firmware/*.bin
 
   build-ghi:
     runs-on: ubuntu-latest
@@ -118,7 +125,7 @@ jobs:
         with:
           node-version: 16.x
       - run: python3 -m pip install --user qmk
-      - run: qmk setup -y -H ./qmk_firmware
+      - run: qmk setup -y -H qmk_firmware
       - run: npm install
       - run: node index.js --glob "g*"
       - run: node index.js --glob "h*"
@@ -127,8 +134,8 @@ jobs:
         with:
           name: fw-ghi
           path: |
-            ./qmk_firmware/*.hex
-            ./qmk_firmware/*.bin
+            qmk_firmware/*.hex
+            qmk_firmware/*.bin
 
   build-jkl:
     runs-on: ubuntu-latest
@@ -141,7 +148,7 @@ jobs:
         with:
           node-version: 16.x
       - run: python3 -m pip install --user qmk
-      - run: qmk setup -y -H ./qmk_firmware
+      - run: qmk setup -y -H qmk_firmware
       - run: npm install
       - run: node index.js --glob "j*"
       - run: node index.js --glob "k*"
@@ -150,8 +157,8 @@ jobs:
         with:
           name: fw-jkl
           path: |
-            ./qmk_firmware/*.hex
-            ./qmk_firmware/*.bin
+            qmk_firmware/*.hex
+            qmk_firmware/*.bin
 
   build-mno:
     runs-on: ubuntu-latest
@@ -164,7 +171,7 @@ jobs:
         with:
           node-version: 16.x
       - run: python3 -m pip install --user qmk
-      - run: qmk setup -y -H ./qmk_firmware
+      - run: qmk setup -y -H qmk_firmware
       - run: npm install
       - run: node index.js --glob "m*"
       - run: node index.js --glob "n*"
@@ -173,8 +180,8 @@ jobs:
         with:
           name: fw-mno
           path: |
-            ./qmk_firmware/*.hex
-            ./qmk_firmware/*.bin
+            qmk_firmware/*.hex
+            qmk_firmware/*.bin
 
   build-pqr:
     runs-on: ubuntu-latest
@@ -187,7 +194,7 @@ jobs:
         with:
           node-version: 16.x
       - run: python3 -m pip install --user qmk
-      - run: qmk setup -y -H ./qmk_firmware
+      - run: qmk setup -y -H qmk_firmware
       - run: npm install
       - run: node index.js --glob "p*"
       - run: node index.js --glob "q*"
@@ -196,8 +203,8 @@ jobs:
         with:
           name: fw-pqr
           path: |
-            ./qmk_firmware/*.hex
-            ./qmk_firmware/*.bin
+            qmk_firmware/*.hex
+            qmk_firmware/*.bin
 
   build-stu:
     runs-on: ubuntu-latest
@@ -210,7 +217,7 @@ jobs:
         with:
           node-version: 16.x
       - run: python3 -m pip install --user qmk
-      - run: qmk setup -y -H ./qmk_firmware
+      - run: qmk setup -y -H qmk_firmware
       - run: npm install
       - run: node index.js --glob "s*"
       - run: node index.js --glob "t*"
@@ -219,8 +226,8 @@ jobs:
         with:
           name: fw-stu
           path: |
-            ./qmk_firmware/*.hex
-            ./qmk_firmware/*.bin
+            qmk_firmware/*.hex
+            qmk_firmware/*.bin
 
   build-vwx:
     runs-on: ubuntu-latest
@@ -233,7 +240,7 @@ jobs:
         with:
           node-version: 16.x
       - run: python3 -m pip install --user qmk
-      - run: qmk setup -y -H ./qmk_firmware
+      - run: qmk setup -y -H qmk_firmware
       - run: npm install
       - run: node index.js --glob "v*"
       - run: node index.js --glob "w*"
@@ -242,8 +249,8 @@ jobs:
         with:
           name: fw-vwx
           path: |
-            ./qmk_firmware/*.hex
-            ./qmk_firmware/*.bin
+            qmk_firmware/*.hex
+            qmk_firmware/*.bin
 
   build-yz:
     runs-on: ubuntu-latest
@@ -256,7 +263,7 @@ jobs:
         with:
           node-version: 16.x
       - run: python3 -m pip install --user qmk
-      - run: qmk setup -y -H ./qmk_firmware
+      - run: qmk setup -y -H qmk_firmware
       - run: npm install
       - run: node index.js --glob "y*"
       - run: node index.js --glob "z*"
@@ -264,8 +271,8 @@ jobs:
         with:
           name: fw-yz
           path: |
-            ./qmk_firmware/*.hex
-            ./qmk_firmware/*.bin
+            qmk_firmware/*.hex
+            qmk_firmware/*.bin
 
   publish:
     needs:
@@ -284,11 +291,16 @@ jobs:
     steps:
       - uses: actions/download-artifact@v3
         with:
-          path: ./download
+          path: download
+      - run: |
+          while read v
+          do
+            find . -type f \( -iname "$v\_*\.hex" -o -iname "$v\_*\.bin" \) | zip --junk-paths "$v" -@ &>/dev/null || true
+          done < vendors-list/vendors.txt
+        working-directory: download
       - uses: pyTooling/Actions/releaser@r0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: 'weekly'
           files: |
-            ./download/**/*.hex
-            ./download/**/*.bin
+            download/*.zip
