@@ -10,7 +10,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-local:
+  build-local-qmk:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -28,7 +28,7 @@ jobs:
       - run: node index.js --local
       - uses: actions/upload-artifact@v3
         with:
-          name: fw-local
+          name: fw-local-qmk
           path: |
             qmk_firmware/*.hex
             qmk_firmware/*.bin
@@ -37,6 +37,27 @@ jobs:
           name: vendors-list
           path: |
             qmk_firmware/vendors.txt
+
+  build-local-vial:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+        with:
+          python-version: 3.x
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+      - run: python3 -m pip install --user qmk
+      - run: qmk setup -y -H qmk_firmware
+      - run: npm install
+      - run: node index.js --local --vial
+      - uses: actions/upload-artifact@v3
+        with:
+          name: fw-local-vial
+          path: |
+            qmk_firmware/*.hex
+            qmk_firmware/*.bin
 
   build-0123456789:
     runs-on: ubuntu-latest
@@ -276,7 +297,8 @@ jobs:
 
   publish:
     needs:
-      - build-local
+      - build-local-qmk
+      - build-local-vial
       - build-0123456789
       - build-abc
       - build-def
