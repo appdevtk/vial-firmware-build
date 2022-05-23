@@ -52,6 +52,7 @@ jobs:
       - run: qmk setup -y -H qmk_firmware
       - run: npm install
       - run: node index.js --local --vial
+      - run: node index.js --vial
       - uses: actions/upload-artifact@v3
         with:
           name: fw-local-vial

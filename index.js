@@ -122,7 +122,6 @@ let currentBranch = keyboardToString(undefined, options.vial)
 let count = 0
 
 if (options.vial) {
-  options.glob = undefined
   run(`git remote add ${DEFAULT_VIAL_USER} https://github.com/${DEFAULT_VIAL_USER}/${DEFAULT_VIAL_REPO}.git`, {
     cwd: options.home,
   })
@@ -134,24 +133,14 @@ if (options.vial) {
 }
 
 let detected = undefined
-if (options.glob) {
-  detected = globSync(path.join(options.glob, '**', 'info.json'), { cwd: path.join(options.home, 'keyboards') }).map(
-    (file) => {
-      return {
-        keyboard: path.dirname(file),
-        keymaps: [DEFAULT_VIA_KEYMAP],
-      }
-    },
-  )
-}
-
-let local = undefined
-if (options.local) {
-  let localPath = '**/keyboards.yml'
+if (detected === undefined && options.local) {
+  let localPath
   if (options.vial) {
     localPath = '**/vial.yml'
+  } else {
+    localPath = '**/keyboards.yml'
   }
-  local = globSync(localPath)
+  detected = globSync(localPath)
     .map((file) => {
       const content = fs.readFileSync(file, 'utf8')
       const data = YAML.parse(content)
@@ -185,49 +174,65 @@ if (options.local) {
     }, [])
 }
 
-let vial = undefined
-if (options.vial) {
-  vial = globSync(path.join('**', 'keymaps', 'vial', 'vial.json'), {
-    cwd: path.join(options.home, 'keyboards'),
-  }).map((file) => {
-    return {
-      keyboard: path.dirname(path.join(file, '..', '..')),
-      keymaps: [DEFAULT_VIAL_KEYMAP],
+if (detected === undefined) {
+  if (options.vial) {
+    let vialPath
+    if (options.glob) {
+      vialPath = path.join(options.glob, '**', 'keymaps', 'vial', 'vial.json')
+    } else {
+      vialPath = path.join('**', 'keymaps', 'vial', 'vial.json')
     }
-  })
-}
-
-;[]
-  .concat(detected || [])
-  .concat(local || [])
-  .concat(vial || [])
-  .forEach((kb) => {
-    ;(kb.keymaps || []).forEach((km) => {
-      if (currentBranch !== keyboardToString(kb, options.vial)) {
-        if (kb.fork) {
-          let forkPath = `${kb.fork.username}/${kb.fork.repository || DEFAULT_QMK_REPO}`
-          if (!forkSetup.includes(forkPath)) {
-            run(`git remote add ${kb.fork.username} https://github.com/${forkPath}.git`, { cwd: options.home })
-            run(`git fetch ${kb.fork.username}`, { cwd: options.home })
-            forkSetup.push(forkPath)
-          }
-          run(`git checkout ${kb.fork.username}/${kb.fork.branch || DEFAULT_QMK_BRANCH}`, { cwd: options.home })
-        } else if (options.vial) {
-          run(`git checkout ${DEFAULT_VIAL_USER}/${DEFAULT_VIAL_BRANCH}`, { cwd: options.home })
-        } else {
-          run(`git checkout ${DEFAULT_QMK_BRANCH}`, { cwd: options.home })
-        }
-        currentBranch = keyboardToString(kb, options.vial)
-      }
-      if (compile(kb.keyboard, km)) {
-        count++
-      } else if (km === DEFAULT_VIA_KEYMAP) {
-        if (compile(kb.keyboard, DEFAULT_QMK_KEYMAP)) {
-          count++
-        }
+    detected = globSync(vialPath, {
+      cwd: path.join(options.home, 'keyboards'),
+    }).map((file) => {
+      return {
+        keyboard: path.dirname(path.join(file, '..', '..')),
+        keymaps: [DEFAULT_VIAL_KEYMAP],
       }
     })
+  } else {
+    let qmkPath
+    if (options.glob) {
+      qmkPath = path.join(options.glob, '**', 'info.json')
+    } else {
+      qmkPath = path.join('**', 'info.json')
+    }
+    detected = globSync(qmkPath, { cwd: path.join(options.home, 'keyboards') }).map((file) => {
+      return {
+        keyboard: path.dirname(file),
+        keymaps: [DEFAULT_VIA_KEYMAP],
+      }
+    })
+  }
+}
+
+;(detected || []).forEach((kb) => {
+  ;(kb.keymaps || []).forEach((km) => {
+    if (currentBranch !== keyboardToString(kb, options.vial)) {
+      if (kb.fork) {
+        let forkPath = `${kb.fork.username}/${kb.fork.repository || DEFAULT_QMK_REPO}`
+        if (!forkSetup.includes(forkPath)) {
+          run(`git remote add ${kb.fork.username} https://github.com/${forkPath}.git`, { cwd: options.home })
+          run(`git fetch ${kb.fork.username}`, { cwd: options.home })
+          forkSetup.push(forkPath)
+        }
+        run(`git checkout ${kb.fork.username}/${kb.fork.branch || DEFAULT_QMK_BRANCH}`, { cwd: options.home })
+      } else if (options.vial) {
+        run(`git checkout ${DEFAULT_VIAL_USER}/${DEFAULT_VIAL_BRANCH}`, { cwd: options.home })
+      } else {
+        run(`git checkout ${DEFAULT_QMK_BRANCH}`, { cwd: options.home })
+      }
+      currentBranch = keyboardToString(kb, options.vial)
+    }
+    if (compile(kb.keyboard, km)) {
+      count++
+    } else if (km === DEFAULT_VIA_KEYMAP) {
+      if (compile(kb.keyboard, DEFAULT_QMK_KEYMAP)) {
+        count++
+      }
+    }
   })
+})
 
 if (currentBranch !== `${DEFAULT_QMK_USER}-${DEFAULT_QMK_REPO}-${DEFAULT_QMK_BRANCH}`) {
   run(`git checkout ${DEFAULT_QMK_BRANCH}`, { cwd: options.home })
