@@ -319,10 +319,11 @@ jobs:
           do
             find . -type f \( -iname "$v\_*\.hex" -o -iname "$v\_*\.bin" \) | zip --junk-paths "$v" -@ &>/dev/null || true
           done < vendors-list/vendors.txt
+          zip --junk-paths firmwares *.zip
         working-directory: download
       - uses: pyTooling/Actions/releaser@r0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: 'weekly'
           files: |
-            download/*.zip
+            download/firmwares.zip

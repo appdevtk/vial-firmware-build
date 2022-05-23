@@ -182,7 +182,7 @@ if (options.local) {
           return merge
         },
       )
-    })
+    }, [])
 }
 
 let vial = undefined
