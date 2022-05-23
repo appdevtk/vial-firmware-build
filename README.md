@@ -7,7 +7,8 @@
 
 This project uses [QMK Firmware](https://qmk.fm).
 
-It builds all the keyboard firmwares configured in the repository.
+It builds all the via/vial keyboard firmwares configured in the repository.
+If vial firmware is not available, the default firmware is built as a fallback.
 
 ## Release
 
@@ -19,6 +20,20 @@ https://github.com/GreatWizard/qmk-firmware-build/releases/tag/weekly
 ## How to flash a firmware
 
 Follow steps from this guide: [Flashing your keyboard](https://docs.qmk.fm/#/newbs_flashing).
+
+## VIA or VIAL?
+
+VIA and VIAL are cross-platform (Windows, Linux and Mac) GUI for configuring your keyboard in real time.
+VIA is a closed-source and integrated natively in QMK Firmware.
+Vial is an open-source and is based on a QMK fork.
+
+### VIA
+
+See documentation here: https://www.caniusevia.com/
+
+### VIAL
+
+See documentation here: https://get.vial.today/
 
 ## Add my keyboards
 
