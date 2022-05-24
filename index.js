@@ -116,6 +116,10 @@ function compile(keyboard, keymap = DEFAULT_QMK_KEYMAP) {
     return true
   }
 }
+function switchBranch(branch) {
+  run(`git checkout ${branch}`, { cwd: options.home })
+  run('make git-submodule', { cwd: options.home })
+}
 
 const forkSetup = []
 let currentBranch = keyboardToString(undefined, options.vial)
@@ -126,10 +130,11 @@ if (options.vial) {
     cwd: options.home,
   })
   run(`git fetch ${DEFAULT_VIAL_USER}`, { cwd: options.home })
-  run(`git checkout ${DEFAULT_VIAL_USER}/${DEFAULT_VIAL_BRANCH}`, { cwd: options.home })
+  switchBranch(`${DEFAULT_VIAL_USER}/${DEFAULT_VIAL_BRANCH}`)
 } else {
   run(`git checkout ${DEFAULT_QMK_BRANCH}`, { cwd: options.home })
   run(`git pull`, { cwd: options.home })
+  run('make git-submodule', { cwd: options.home })
 }
 
 let detected = undefined
@@ -222,14 +227,14 @@ if (detected === undefined) {
           forkSetup.push(forkPath)
         }
         if (options.vial) {
-          run(`git checkout ${kb.fork.username}/${kb.fork.branch || DEFAULT_VIAL_BRANCH}`, { cwd: options.home })
+          switchBranch(`${kb.fork.username}/${kb.fork.branch || DEFAULT_VIAL_BRANCH}`)
         } else {
-          run(`git checkout ${kb.fork.username}/${kb.fork.branch || DEFAULT_QMK_BRANCH}`, { cwd: options.home })
+          switchBranch(`${kb.fork.username}/${kb.fork.branch || DEFAULT_QMK_BRANCH}`)
         }
       } else if (options.vial) {
-        run(`git checkout ${DEFAULT_VIAL_USER}/${DEFAULT_VIAL_BRANCH}`, { cwd: options.home })
+        switchBranch(`${DEFAULT_VIAL_USER}/${DEFAULT_VIAL_BRANCH}`)
       } else {
-        run(`git checkout ${DEFAULT_QMK_BRANCH}`, { cwd: options.home })
+        switchBranch(DEFAULT_QMK_BRANCH)
       }
       currentBranch = keyboardToString(kb, options.vial)
     }
@@ -244,7 +249,7 @@ if (detected === undefined) {
 })
 
 if (currentBranch !== `${DEFAULT_QMK_USER}-${DEFAULT_QMK_REPO}-${DEFAULT_QMK_BRANCH}`) {
-  run(`git checkout ${DEFAULT_QMK_BRANCH}`, { cwd: options.home })
+  switchBranch(DEFAULT_QMK_BRANCH)
 }
 
 console.log(`✨ Compiled ${count} keymaps.`)

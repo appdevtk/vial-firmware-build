@@ -19,7 +19,10 @@
     "qmk",
     "firmware",
     "build",
-    "keyboard"
+    "keyboard",
+    "keymap",
+    "via",
+    "vial"
   ],
   "scripts": {
     "lint": "eslint . --cache",
