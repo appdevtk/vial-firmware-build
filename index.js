@@ -198,16 +198,21 @@ if (detected === undefined) {
   } else {
     let qmkPath
     if (options.glob) {
-      qmkPath = path.join(options.glob, '**', 'info.json')
+      qmkPath = path.join(options.glob, '**', 'rules.mk')
     } else {
-      qmkPath = path.join('**', 'info.json')
+      qmkPath = path.join('**', 'rules.mk')
     }
-    detected = globSync(qmkPath, { cwd: path.join(options.home, 'keyboards') }).map((file) => {
-      return {
-        keyboard: path.dirname(file),
-        keymaps: [DEFAULT_VIA_KEYMAP],
-      }
-    })
+    detected = globSync(qmkPath, { cwd: path.join(options.home, 'keyboards') })
+      .map((file) => {
+        if (file.includes('/keymaps/')) {
+          return undefined
+        }
+        return {
+          keyboard: path.dirname(file),
+          keymaps: [DEFAULT_VIA_KEYMAP],
+        }
+      })
+      .filter(Boolean)
   }
 }
 
