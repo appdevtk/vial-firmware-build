@@ -12,10 +12,10 @@ If vial firmware is not available, the default firmware is built as a fallback.
 
 ## Release
 
-Every week the script is executed by Github Actions and updates the `weekly` tag.
+Every night the script is executed by Github Actions and updates the `nightly` tag.
 
 You can download the files directly here:
-https://github.com/GreatWizard/qmk-firmware-build/releases/tag/weekly
+https://github.com/GreatWizard/qmk-firmware-build/releases/tag/nightly
 
 ## How to flash a firmware
 
