@@ -210,13 +210,22 @@ if (detected === undefined) {
   ;(kb.keymaps || []).forEach((km) => {
     if (currentBranch !== keyboardToString(kb, options.vial)) {
       if (kb.fork) {
-        let forkPath = `${kb.fork.username}/${kb.fork.repository || DEFAULT_QMK_REPO}`
+        let forkPath
+        if (options.vial) {
+          forkPath = `${kb.fork.username}/${kb.fork.repository || DEFAULT_VIAL_REPO}`
+        } else {
+          forkPath = `${kb.fork.username}/${kb.fork.repository || DEFAULT_QMK_REPO}`
+        }
         if (!forkSetup.includes(forkPath)) {
           run(`git remote add ${kb.fork.username} https://github.com/${forkPath}.git`, { cwd: options.home })
           run(`git fetch ${kb.fork.username}`, { cwd: options.home })
           forkSetup.push(forkPath)
         }
-        run(`git checkout ${kb.fork.username}/${kb.fork.branch || DEFAULT_QMK_BRANCH}`, { cwd: options.home })
+        if (options.vial) {
+          run(`git checkout ${kb.fork.username}/${kb.fork.branch || DEFAULT_VIAL_BRANCH}`, { cwd: options.home })
+        } else {
+          run(`git checkout ${kb.fork.username}/${kb.fork.branch || DEFAULT_QMK_BRANCH}`, { cwd: options.home })
+        }
       } else if (options.vial) {
         run(`git checkout ${DEFAULT_VIAL_USER}/${DEFAULT_VIAL_BRANCH}`, { cwd: options.home })
       } else {

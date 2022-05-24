@@ -40,16 +40,28 @@ See documentation here: https://get.vial.today/
 You can add your keyboards by doing a pull request with the following content:
 
 - create a new user in the `users` directory that is exactly you GitHub nickname
-- add a file `keyboards.yml` in your directory following this structure:
+- for QMK firmwares, add a file `keyboards.yml` in your directory following this structure:
 
 ```yaml
 ---
-- keyboard: coseyfannitutti/discipline # required
-  keymaps: [default, via] # required
+- keyboard: kprepublic/jj50 # required
+  keymaps: [greatwizard] # required
 - fork: # optional
     username: piit79 # required
     repository: qmk_firmware # optional, defaults to qmk_firmware
     branch: master # optional, defaults to master
   keyboard: 42keebs/mysterium/v15d # required
   keymaps: [via] # required
+```
+
+- for vial firmwares, add a file `vial.yml` in your directory following this structure:
+
+```yaml
+---
+- fork: # optional
+    username: greatwiard # required
+    repository: vial-qmk # optional, defaults to vial-qmk
+    branch: jj50 # optional, defaults to vial
+  keyboard: kprepublic/jj50 # required
+  keymaps: [vial] # required
 ```
