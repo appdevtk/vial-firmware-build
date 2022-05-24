@@ -65,3 +65,12 @@ You can add your keyboards by doing a pull request with the following content:
   keyboard: kprepublic/jj50 # required
   keymaps: [vial] # required
 ```
+
+## Alternative places to get firmwares
+
+- https://qmk.fm/keyboards/
+- https://qmk.tzarc.io/
+- https://github.com/filterpaper/build_qmk_dev
+- https://github.com/Xelus22/QMK-VIA-Hex-Develop
+- https://github.com/Xelus22/QMK-VIA-Hex
+- https://www.caniusevia.com/docs/download_firmware
