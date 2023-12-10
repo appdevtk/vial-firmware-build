@@ -20,7 +20,8 @@ jobs:
           node-version: 16.x
       - run: python3 -m pip install --user qmk
       - run: qmk setup -y -H qmk_firmware
-      - run: echo "splitkb" >> vendors.txt
+      - run: echo "splitkb" > vendors.txt
+        working-directory: qmk_firmware
       - run: npm install
       - run: node index.js --local --vial
       #- run: node index.js --vial
