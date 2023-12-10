@@ -66,7 +66,7 @@ jobs:
           while read v
           do
             find . -type f \( -iname "$v\_*\.hex" -o -iname "$v\_*\.bin" -o -iname "$v\_*\.uf2" \) | zip --junk-paths "$v" -@ &>/dev/null || true
-          done < vendors-list/vendors.txt
+          done
           zip --junk-paths firmwares *.zip
         working-directory: download
       - uses: pyTooling/Actions/releaser@r0
