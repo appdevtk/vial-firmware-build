@@ -1,8 +1,6 @@
 name: Publish
 
 on:
-  schedule:
-    - cron: '0 0 * * *'
   workflow_dispatch:
 
 concurrency:
@@ -10,34 +8,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-local-qmk:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
-        with:
-          python-version: 3.x
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16.x
-      - run: python3 -m pip install --user qmk
-      - run: qmk setup -y -H qmk_firmware
-      - run: ls keyboards > vendors.txt && echo "42keebs" >> vendors.txt
-        working-directory: qmk_firmware
-      - run: npm install
-      - run: node index.js --local
-      - uses: actions/upload-artifact@v3
-        with:
-          name: fw-local-qmk
-          path: |
-            qmk_firmware/*.hex
-            qmk_firmware/*.bin
-      - uses: actions/upload-artifact@v3
-        with:
-          name: vendors-list
-          path: |
-            qmk_firmware/vendors.txt
-
   build-local-vial:
     runs-on: ubuntu-latest
     steps:
@@ -52,15 +22,16 @@ jobs:
       - run: qmk setup -y -H qmk_firmware
       - run: npm install
       - run: node index.js --local --vial
-      - run: node index.js --vial
+      #- run: node index.js --vial
       - uses: actions/upload-artifact@v3
         with:
           name: fw-local-vial
           path: |
             qmk_firmware/*.hex
             qmk_firmware/*.bin
+            qmk_firmware/*.uf2
 
-  build-0123456789:
+  build-s:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -73,243 +44,19 @@ jobs:
       - run: python3 -m pip install --user qmk
       - run: qmk setup -y -H qmk_firmware
       - run: npm install
-      - run: node index.js --glob "0*"
-      - run: node index.js --glob "1*"
-      - run: node index.js --glob "2*"
-      - run: node index.js --glob "3*"
-      - run: node index.js --glob "4*"
-      - run: node index.js --glob "5*"
-      - run: node index.js --glob "6*"
-      - run: node index.js --glob "7*"
-      - run: node index.js --glob "8*"
-      - run: node index.js --glob "9*"
+      - run: node index.js --glob "splitkb*"
       - uses: actions/upload-artifact@v3
         with:
-          name: fw-0123456789
+          name: fw-s
           path: |
             qmk_firmware/*.hex
             qmk_firmware/*.bin
-
-  build-abc:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
-        with:
-          python-version: 3.x
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16.x
-      - run: python3 -m pip install --user qmk
-      - run: qmk setup -y -H qmk_firmware
-      - run: npm install
-      - run: node index.js --glob "a*"
-      - run: node index.js --glob "b*"
-      - run: node index.js --glob "c*"
-      - uses: actions/upload-artifact@v3
-        with:
-          name: fw-abc
-          path: |
-            qmk_firmware/*.hex
-            qmk_firmware/*.bin
-
-  build-def:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
-        with:
-          python-version: 3.x
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16.x
-      - run: python3 -m pip install --user qmk
-      - run: qmk setup -y -H qmk_firmware
-      - run: npm install
-      - run: node index.js --glob "d*"
-      - run: node index.js --glob "e*"
-      - run: node index.js --glob "f*"
-      - uses: actions/upload-artifact@v3
-        with:
-          name: fw-def
-          path: |
-            qmk_firmware/*.hex
-            qmk_firmware/*.bin
-
-  build-ghi:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
-        with:
-          python-version: 3.x
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16.x
-      - run: python3 -m pip install --user qmk
-      - run: qmk setup -y -H qmk_firmware
-      - run: npm install
-      - run: node index.js --glob "g*"
-      - run: node index.js --glob "h*"
-      - run: node index.js --glob "i*"
-      - uses: actions/upload-artifact@v3
-        with:
-          name: fw-ghi
-          path: |
-            qmk_firmware/*.hex
-            qmk_firmware/*.bin
-
-  build-jkl:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
-        with:
-          python-version: 3.x
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16.x
-      - run: python3 -m pip install --user qmk
-      - run: qmk setup -y -H qmk_firmware
-      - run: npm install
-      - run: node index.js --glob "j*"
-      - run: node index.js --glob "k*"
-      - run: node index.js --glob "l*"
-      - uses: actions/upload-artifact@v3
-        with:
-          name: fw-jkl
-          path: |
-            qmk_firmware/*.hex
-            qmk_firmware/*.bin
-
-  build-mno:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
-        with:
-          python-version: 3.x
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16.x
-      - run: python3 -m pip install --user qmk
-      - run: qmk setup -y -H qmk_firmware
-      - run: npm install
-      - run: node index.js --glob "m*"
-      - run: node index.js --glob "n*"
-      - run: node index.js --glob "o*"
-      - uses: actions/upload-artifact@v3
-        with:
-          name: fw-mno
-          path: |
-            qmk_firmware/*.hex
-            qmk_firmware/*.bin
-
-  build-pqr:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
-        with:
-          python-version: 3.x
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16.x
-      - run: python3 -m pip install --user qmk
-      - run: qmk setup -y -H qmk_firmware
-      - run: npm install
-      - run: node index.js --glob "p*"
-      - run: node index.js --glob "q*"
-      - run: node index.js --glob "r*"
-      - uses: actions/upload-artifact@v3
-        with:
-          name: fw-pqr
-          path: |
-            qmk_firmware/*.hex
-            qmk_firmware/*.bin
-
-  build-stu:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
-        with:
-          python-version: 3.x
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16.x
-      - run: python3 -m pip install --user qmk
-      - run: qmk setup -y -H qmk_firmware
-      - run: npm install
-      - run: node index.js --glob "s*"
-      - run: node index.js --glob "t*"
-      - run: node index.js --glob "u*"
-      - uses: actions/upload-artifact@v3
-        with:
-          name: fw-stu
-          path: |
-            qmk_firmware/*.hex
-            qmk_firmware/*.bin
-
-  build-vwx:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
-        with:
-          python-version: 3.x
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16.x
-      - run: python3 -m pip install --user qmk
-      - run: qmk setup -y -H qmk_firmware
-      - run: npm install
-      - run: node index.js --glob "v*"
-      - run: node index.js --glob "w*"
-      - run: node index.js --glob "x*"
-      - uses: actions/upload-artifact@v3
-        with:
-          name: fw-vwx
-          path: |
-            qmk_firmware/*.hex
-            qmk_firmware/*.bin
-
-  build-yz:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
-        with:
-          python-version: 3.x
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16.x
-      - run: python3 -m pip install --user qmk
-      - run: qmk setup -y -H qmk_firmware
-      - run: npm install
-      - run: node index.js --glob "y*"
-      - run: node index.js --glob "z*"
-      - uses: actions/upload-artifact@v3
-        with:
-          name: fw-yz
-          path: |
-            qmk_firmware/*.hex
-            qmk_firmware/*.bin
+            qmk_firmware/*.uf2
 
   publish:
     needs:
-      - build-local-qmk
       - build-local-vial
-      - build-0123456789
-      - build-abc
-      - build-def
-      - build-ghi
-      - build-jkl
-      - build-mno
-      - build-pqr
-      - build-stu
-      - build-vwx
-      - build-yz
+      - build-s
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v3
@@ -318,7 +65,7 @@ jobs:
       - run: |
           while read v
           do
-            find . -type f \( -iname "$v\_*\.hex" -o -iname "$v\_*\.bin" \) | zip --junk-paths "$v" -@ &>/dev/null || true
+            find . -type f \( -iname "$v\_*\.hex" -o -iname "$v\_*\.bin" -o -iname "$v\_*\.uf2" \) | zip --junk-paths "$v" -@ &>/dev/null || true
           done < vendors-list/vendors.txt
           zip --junk-paths firmwares *.zip
         working-directory: download
