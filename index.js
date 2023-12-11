@@ -109,8 +109,8 @@ function compile(keyboard, keymap = DEFAULT_QMK_KEYMAP) {
     if (fs.existsSync(path.join(options.home, `${keyboard.replaceAll('/', '_')}_${keymap}.bin`))) {
       fs.unlinkSync(path.join(options.home, `${keyboard.replaceAll('/', '_')}_${keymap}.bin`))
     }
-    
-    console.log(`${res.stdout}`)
+    console.log(res.stderr)
+    console.log(res.stdout)
     console.log(`Compiling ${keyboard}:${keymap}... KO`)
     return false
   } else {
