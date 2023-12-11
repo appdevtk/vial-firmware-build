@@ -23,7 +23,7 @@ jobs:
       - run: echo "splitkb" > vendors.txt
         working-directory: qmk_firmware
       - run: npm install
-      - run: node index.js --local --vial
+      - run: node index.js --local --vial --debug
       #- run: node index.js --vial
       - uses: actions/upload-artifact@v3
         with:
@@ -38,32 +38,9 @@ jobs:
           path: |
             qmk_firmware/vendors.txt
 
-  build-s:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
-        with:
-          python-version: 3.x
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16.x
-      - run: python3 -m pip install --user qmk
-      - run: qmk setup -y -H qmk_firmware
-      - run: npm install
-      - run: node index.js --glob "splitkb*"
-      - uses: actions/upload-artifact@v3
-        with:
-          name: fw-s
-          path: |
-            qmk_firmware/*.hex
-            qmk_firmware/*.bin
-            qmk_firmware/*.uf2
-
   publish:
     needs:
       - build-local-vial
-      - build-s
     runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v3
