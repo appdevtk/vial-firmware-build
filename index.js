@@ -101,7 +101,7 @@ function run(cmd, opts = {}) {
 }
 
 function compile(keyboard, keymap = DEFAULT_QMK_KEYMAP) {
-  let res = run(`qmk compile -kb ${keyboard} -km ${keymap} -e CONVERT_TO=promicro_rp2040`)
+  let res = run(`qmk compile -kb ${keyboard} -km ${keymap} -e CONVERT_TO=liatris`)
   if (res.status !== 0) {
     if (fs.existsSync(path.join(options.home, `${keyboard.replaceAll('/', '_')}_${keymap}.hex`))) {
       fs.unlinkSync(path.join(options.home, `${keyboard.replaceAll('/', '_')}_${keymap}.hex`))
