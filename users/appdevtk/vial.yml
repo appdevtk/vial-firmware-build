@@ -2,6 +2,6 @@
 - fork: # optional
     username: appdevtk # required
     repository: vial-qmk # optional, defaults to vial-qmk
-    branch: vial # optional, defaults to vial
+    branch: my-config # optional, defaults to vial
   keyboard: splitkb/aurora/lily58 # required
   keymaps: [vial] # required
